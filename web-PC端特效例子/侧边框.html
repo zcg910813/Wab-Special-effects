@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            width: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #box {
+            width: 240px;
+            height: 400px;
+            overflow: hidden;
+            position:relative;
+            left: -200px;
+            top: 100px;
+            overflow: hidden;
+        }
+        
+        #boxa {
+            width: 200px;
+            height: 400px;
+            float: left;
+            background: red;
+            overflow: hidden;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        #boxa ul {
+            width: 80px;
+            margin: 30px;
+            float: right;
+            list-style: none;
+        }
+        
+        #boxa li {
+            width: 20px;
+            float: right;
+        }
+        
+        #boxb {
+            width: 40px;
+            height: 100px;
+            float: left;
+            background: blue;
+            position: absolute;
+            right: 0;
+            top: 10px;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        #boxb p {
+            font-size: 20px;
+            width: 20px;
+            margin: 10px auto;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="boxa">
+            <ul>
+                <li>窗前明月光</li>
+                <li>疑是地上霜</li>
+                <li>举头望明光</li>
+                <li>低头思故乡</li>
+            </ul>
+        </div>
+        <div id="boxb">
+            <p>静夜思</p>
+        </div>
+    </div>
+</body>
+<script>
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    var flag = true;
+    var timer;
+    $('boxb').onclick = function() {
+        clearInterval(timer);
+        if (flag) {
+            var a = -200;
+            timer = setInterval(function() {
+                a++;
+                $('box').style.left = a + 'px';
+                if (a == 0) {
+                    clearInterval(timer);
+                }
+            }, 1);
+            flag = false;
+        } else {
+            var a = 0;
+            timer = setInterval(function() {
+                a--;
+                $('box').style.left = a + 'px';
+                if (a == -200) {
+                    clearInterval(timer);
+                }
+            }, 1);
+            flag = true;
+        }
+    }
+
+</script>
+
+</html>

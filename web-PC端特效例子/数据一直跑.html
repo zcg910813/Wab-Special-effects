@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跑马灯</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #scrollBall{
+/*
+            position: absolute;
+            left: 0;
+            top: 0;
+*/
+            
+        }
+        #scrollBall li{
+            width: 300px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+        #scrollBall li:nth-child(even){
+            background: red;
+        }
+        #scrollBall li:nth-child(odd){
+            background: blue;
+        }
+        #box{
+            width: 300px;
+            height: 160px;
+            overflow: hidden;
+/*            position: relative;*/
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <ul id="scrollBall">
+            <li>张三1 183****1234</li>
+            <li>张三2 183****1234</li>
+            <li>张三3 183****1234</li>
+            <li>张三4 183****1234</li>
+            <li>张三5 183****1234</li>
+            <li>张三6 183****1234</li>
+            <li>张三7 183****1234</li>
+            <li>张三8 183****1234</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var box = document.getElementById('box');
+    var scrollBall = document.getElementById('scrollBall');
+    var timer;
+    scrollBall.innerHTML += scrollBall.innerHTML;
+    timer = setInterval(function(){
+        box.scrollTop += 1;
+        if(box.scrollTop >= 320){
+            box.scrollTop = 0;
+        }
+    },10)
+</script>
+</html>

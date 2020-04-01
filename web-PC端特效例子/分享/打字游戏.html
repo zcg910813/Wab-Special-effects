@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>打字游戏</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000000;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #box {
+            position: relative;
+            width: 960px;
+            height: 100%;
+            background: #988585;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        #dialog {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            background: rgba(0, 0, 0, .6);
+        }
+        
+        #start {
+            width: 200px;
+            height: 42px;
+            line-height: 42px;
+            background: #07d7f2;
+            font-size: 30px;
+            text-align: center;
+            border-radius: 4px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+        #comb {
+	        position: absolute;
+            left: 50%;
+            top: 600px;
+            width: 200px;
+            margin-left: -100px;
+            text-align: center;
+            background: #3388ff;
+            color: #ffffff;
+            font-size: 30px;
+            padding: 5px 0;
+            z-index: 20;
+        }
+        #word_box {
+            width: 800px;
+            height: 500px;
+            background: #07d7f2;
+            margin: 20px auto;
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .ipt_box {
+            width: 700px;
+            margin: 0 auto;
+        }
+        
+        #ipt_ctn {
+            display: block;
+            width: 100%;
+            height: 42px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 30px;
+            border: 1px solid transparent;
+        }
+        
+        #ipt_ctn:focus {
+            outline: none;
+            height: 42px;
+            border: 1px solid #07d7f2;
+        }
+        
+        .cell {
+            position: absolute;
+            padding: 4px 6px;
+            font-size: 14px;
+            color: #ffffff;
+            top: 0;
+            background: #000;
+            border-radius: 3px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id=box>
+        <div id="dialog">
+            <div id="start">开始游戏</div>
+        </div>
+        <div id="comb">0</div>
+        <div id="word_box"></div>
+        <p class="ipt_box">
+            <input type="text" id="ipt_ctn">
+        </p>
+    </div>
+</body>
+<script>
+    //获取DOM元素
+    var word_box = document.getElementById('word_box');
+    var ipt_ctn = document.getElementById('ipt_ctn');
+    var start = document.getElementById('start');
+    var comb = document.getElementById('comb');
+    //开始游戏
+    start.onclick = function() {
+        this.parentNode.style.display = "none";
+        game.gameStart();
+    }
+    //初始化游戏
+    var game = {
+        speed: 30,  //单词下落速度
+        spacing: 2000, //单词生成速度
+        fail: 0,
+        maxFail:2,//最大失败次数
+        combo:0,
+        bgColor: ['#0aff00', '#b100ff', '#ff4500', '#1d00ff', '#e32424'],
+        words: ['div', 'table', 'form', 'href', 'link', 'hover', 'focus', 'title', 'document', 'element', 'opacity', 'filter', 'display', 'width', 'height', 'margin', 'border', 'radius', 'background', 'image', 'center', 'left', 'right', 'none', 'normal', 'pointer', 'cursor', 'padding', 'block', 'inline', 'float', 'position', 'relative', 'absolute', 'fixed', 'scroll', 'mouse', 'enter', 'leave', 'stopPropagation', 'cancelBubble', 'setInterval', 'setTimeout', 'overflow', 'hidden', 'checkbox', 'checked', 'clearInterval', 'clearTimeout', 'input', 'function', 'object', 'array', 'string', 'prototype', 'className', 'getAttribute', 'setAttribute', 'onload', 'window', 'clear', 'content', 'addEventListener', 'removeEventListener'],
+        gameStart: function() {
+            var self = this;
+            self.create();
+
+            this.timer = setInterval(function() {
+                self.create();
+                self.del();
+            }, this.spacing);
+
+        },
+        create: function() {
+            var cell = document.createElement('span');
+            cell.t = 0;
+            cell.innerHTML = this.words[Math.floor(Math.random() * this.words.length)];
+            cell.className = 'cell';
+            word_box.appendChild(cell);
+            cell.style.backgroundColor = this.bgColor[Math.floor(Math.random() * this.bgColor.length)];
+            cell.style.left = Math.floor(Math.random() * (800 - cell.offsetWidth)) + 'px';
+
+            var self = this;
+            cell.timer = setInterval(function() {
+                cell.t++;
+                if (cell.t >= 500) {
+                    clearInterval(cell.timer);
+                    cell.parentNode.removeChild(cell);
+                    self.fail++;
+                    if (self.fail == self.maxFail) {
+                        alert('挑战失败');
+                        window.location.reload();
+                    }
+                }
+                cell.style.top = cell.t + 'px';
+            }, self.speed)
+
+        },
+        del: function() {
+            var cells = word_box.getElementsByTagName('span');
+            var self = this;
+            ipt_ctn.onkeydown = function(event) {
+                var event = event || window.event;
+                if (event.keyCode == 13) {
+                    for (key in cells){
+                        if(this.value === cells[key].innerHTML){
+                            clearInterval(cells[key].timer);
+                            word_box.removeChild(cells[key]);
+                            self.combo++;
+                            comb.innerHTML = self.combo;
+                            this.value = '';
+                            this.focus();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //消除方块
+
+</script>
+
+</html>

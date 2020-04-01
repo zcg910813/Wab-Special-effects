@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>树形列表</title>
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <style>
+        #tree_box {
+            width: 180px;
+            border: 1px solid blue;
+            cursor: pointer;
+        }
+        
+        .school>dd {
+            display: none;
+        }
+        
+        .school>dt {
+            background: #3388ff;
+        }
+        
+        .grades>dd {
+            display: none;
+            background: #3388ff;
+            margin-top: 10px;
+        }
+        
+        .grades>dt {
+            background: #3388ff;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="tree_box"></div>
+</body>
+<script>
+    $(function() {
+        var json_data = [{
+            name: "北京一中",
+            gradeList: [{
+                name: "高一",
+                classList: ["1001", "1002", "1003", "1004", "1005"]
+            }, {
+                name: "高二",
+                classList: ["1021", "1022", "1023", "1024", "1025"]
+            }, {
+                name: "高三",
+                classList: ["1031", "1032", "1033", "1034", "1035"]
+            }]
+        }, {
+            name: "北京二中",
+            gradeList: [{
+                name: "高一",
+                classList: ["1001", "1002", "1003", "1004", "1005"]
+            }, {
+                name: "高二",
+                classList: ["1021", "1022", "1023", "1024", "1025"]
+            }, {
+                name: "高三",
+                classList: ["1031", "1032", "1033", "1034", "1035"]
+            }]
+        }, {
+            name: "北京三中",
+            gradeList: [{
+                name: "高一",
+                classList: ["1001", "1002", "1003", "1004", "1005"]
+            }, {
+                name: "高二",
+                classList: ["1021", "1022", "1023", "1024", "1025"]
+            }, {
+                name: "高三",
+                classList: ["1031", "1032", "1033", "1034", "1035"]
+            }]
+        }];
+
+        var $tree_box = $('#tree_box');
+        $.each(json_data, function(index, item) {
+            //创建学校
+            var $school = $('<dl class="school"></dl>').append('<dt>' + item.name + '</dt>');
+            //创建年级
+            $.each(item.gradeList, function(ix, im) {
+                var $grade = $('<dd></dd>');
+                var $grade_dl = $('<dl class="grades"></dl>').append('<dt>' + im.name + '</dt>');
+                //创建班级
+                $.each(im.classList, function(i, m) {
+                    $grade_dl.append('<dd>' + m + '</dd>')
+                })
+                $grade_dl.appendTo($grade);
+                $grade.appendTo($school);
+            })
+            $tree_box.append($school);
+        })
+        //绑定事件
+        $('.school,.grades').children('dt').click(function(){
+            $(this).siblings('dd').toggle(300);
+        })
+    })
+
+</script>
+
+</html>

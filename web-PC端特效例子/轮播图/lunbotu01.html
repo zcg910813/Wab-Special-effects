@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图（淡入淡出）</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <script src="js/animate.min.js"></script>
+    <style>
+        #fade_box {
+            width: 790px;
+            height: 340px;
+            position: relative;
+            margin: 50px auto 0;
+        }
+        #img_box {
+            width: 790px;
+            height: 340px;
+            position: relative;
+        }
+        #img_box a {
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+        #img_box a:first-child {
+            z-index: 10;
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+        #img_box a img {
+            width: 790px;
+            height: 340px;
+        }
+        #point_btns {
+            position: absolute;
+            z-index: 20;
+            overflow: hidden;
+            width: 120px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.4);
+            bottom: 30px;
+            left: 330px;
+            border-radius: 10px;
+        }
+        #point_btns a {
+            float: left;
+            width: 14px;
+            height: 14px;
+            margin: 0 3px;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+        #point_btns .high_light {
+            background: #ed7878;
+        }
+        #prev,
+        #next {
+            width: 30px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            font-family: "黑体";
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 145px;
+            z-index: 20;
+        }
+        #prev {
+            left: 0;
+        }
+        #next {
+            right: 0;
+        }
+        .hide {
+            display: none;
+        }
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="fade_box">
+        <div id="img_box">
+            <a href="#"><img src="image/p1.jpg" alt=""></a>
+            <a href="#"><img src="image/p2.jpg" alt=""></a>
+            <a href="#"><img src="image/p3.png" alt=""></a>
+            <a href="#"><img src="image/p4.jpg" alt=""></a>
+            <a href="#"><img src="image/p5.jpg" alt=""></a>
+            <a href="#"><img src="image/p6.jpg" alt=""></a>
+        </div>
+        <p id="point_btns">
+            <a class="high_light" href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+        </p>
+        <a id="prev" class="hide" href="javascript:;">&lt;</a>
+        <a id="next" class="hide" href="javascript:;">&gt;</a>
+    </div>
+</body>
+<script>
+    var fade_box = document.getElementById('fade_box'),
+        fade_cell = document.getElementById('img_box').getElementsByTagName('a'),
+        points = document.getElementById('point_btns').getElementsByTagName('a'),
+        prev = document.getElementById('prev'),
+        next = document.getElementById('next');
+    //自动轮播
+    function autoFade() {
+        fade_box.timer ? clearTimeout(fade_box.timer) : null;
+        fade_box.timer = setTimeout(fade, 1000);
+    }
+    autoFade();
+    //设置变化量，方向
+    fade_box.index = 0;
+    fade_box.direction = 1;
+    //渐变函数
+    function fade() {
+        fade_box.index += fade_box.direction;
+        //判断零界点
+        if (fade_box.index == 6) {
+            fade_box.index = 0;
+        } else if (fade_box.index == -1) {
+            fade_box.index = 5;
+        }
+        //将所有图片隐藏，底部按钮样式统一
+        for (var i = 0; i < fade_cell.length; i++) {
+            fade_cell[i].style.zIndex = 1;
+            animate(fade_cell[i], {
+                opacity: 0
+            }, 300);
+            points[i].className = '';
+        }
+        //只显示当前轮播到的图片
+        fade_cell[fade_box.index].style.zIndex = 10;
+        animate(fade_cell[fade_box.index], {
+            opacity: 1
+        }, 300, function() {
+            autoFade();
+        })
+        //小按钮高亮
+        points[fade_box.index].className = 'high_light';
+    }
+    /******左右切换*******/
+    //切换左右按钮的显示和隐藏
+    fade_box.onmouseover = function() {
+        prev.className = next.className = 'show';
+        this.onmouseout = function() {
+            prev.className = next.className = 'hide';
+        }
+    }
+    //添加左右按钮的点击事件
+    prev.onclick = function() {
+        clearTimeout(fade_box.timer);
+        fade_box.direction = -1;
+        fade();
+    }
+    next.onclick = function() {
+        clearTimeout(fade_box.timer);
+        fade_box.direction = 1;
+        fade();
+    }
+    //底部小按钮事件绑定
+    function clicks() {
+        for (var i = 0; i < points.length; i++) {
+            points[i].index = i;
+            points[i].onclick = function() {
+                //停止自动轮播计时器
+                clearTimeout(fade_box.timer);
+                //保证下一次自动轮播开始时，从当前点击的按钮开始
+                fade_box.index = this.index;
+                
+                //将所有图片隐藏，底部按钮样式统一
+                for (var j = 0; j < fade_cell.length; j++) {
+                    fade_cell[j].style.zIndex = 1;
+                    animate(fade_cell[j], {
+                        opacity: 0
+                    }, 300);
+                    points[j].className = '';
+                }
+                
+                //只显示当前点击所对应的图片，对应按钮高亮
+                fade_cell[fade_box.index].style.zIndex = 10;
+                animate(fade_cell[fade_box.index], {
+                    opacity: 1
+                }, 300, function() {
+                    autoFade();
+                })
+                this.className = 'high_light';
+            }
+        }
+    }
+    clicks();
+</script>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    我这里面很多东西，你看看打印啥
+    <ul>
+      <!--startprint-->
+      <li><img src="http://www.pptbz.com/pptpic/UploadFiles_6909/201203/2012031220134655.jpg" /></li>
+      <li><img src="http://t8.baidu.com/it/u=3660968530,985748925&fm=191&app=48&wm=1,17,90,45,20,7&wmo=0,0&n=0&g=0n&f=JPEG?sec=1853310920&t=9b4f100f0eedfe853fad24a58a4e1ad7" /></li>
+      <li><img src="http://www.ctps.cn/PhotoNet/Profiles2011/20160311/20163111610178319.jpg" /></li>
+      <!--endprint-->
+    </ul>
+  </div>
+  <button onclick="doPrint()">打印</button>
+</body>
+<script>
+  function doPrint() {
+        bdhtml=window.document.body.innerHTML;
+        sprnstr="<!--startprint-->"; //开始打印标识字符串有17个字符
+        eprnstr="<!--endprint-->"; //结束打印标识字符串
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17); //从开始打印标识之后的内容
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr)); //截取开始标识和结束标识之间的内容
+        window.document.body.innerHTML=prnhtml; //把需要打印的指定内容赋给body.innerHTML
+        window.print(); //调用浏览器的打印功能打印指定区域
+        window.document.body.innerHTML=bdhtml; // 最后还原页面
+    }
+</script>
+</html>

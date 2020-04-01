@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 400px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        #box ul {
+            float: left;
+            height: 100px;
+            background: yellow;
+
+        }
+
+        #box ul li {
+            margin: 0 10px;
+            padding: 10px;
+            float: left;
+            color: black;
+            position: relative;
+            background: #03ccbb;
+        }
+
+        #box ul li::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;   
+            border-bottom: 2px solid red;
+            transition: 0.2s all linear;
+        }
+
+        #box ul li:hover::before {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <ul>
+            <li>首页</li>
+            <li>详情</li>
+            <li>购物车</li>
+            <li>售后</li>
+            <li>关于</li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>打火机</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/css.css">
+</head>
+
+<body>
+    <div id="big_box">
+        <div id="box">
+            <div id="top_box">
+            </div>
+            <div class="center_box clear">
+                <div id="huo"></div>
+                <div class="bai"></div>
+                <div class="center_box_4">
+                </div>
+                <div class="center_box_1">
+                </div>
+                <div class="center_box_2">
+                </div>
+                <div class="center_box_3">
+                </div>
+            </div>
+            <div class="bottom_box">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <P>Zippo</P>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var box = document.getElementById('box');
+    var topbox = document.getElementById('top_box');
+    var flag = true;
+    var huo = document.getElementById('huo');
+    box.onclick = function() {
+        if (flag) {
+            topbox.style.transform = 'rotate(120deg)';
+            box.style.transform = 'rotate(360deg)';
+            flag = false;
+            huo.className = 'block';
+        } else {
+            topbox.style.transform = 'rotate(0deg)';
+            box.style.transform = 'rotate(0deg)';
+            flag = true;
+            huo.className = '';
+        }
+    }
+
+</script>
+
+</html>

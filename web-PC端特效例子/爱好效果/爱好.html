@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+		<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+		 <div class="options">
+		 	<ul id="items">
+		 		<li>音乐</li>
+		 		<li>美术</li>
+		 		<li>体育</li>
+		 		<li>游戏</li>
+		 		<li>旅游</li>
+		 		<li>跑步</li>
+		 		<li>爬山</li>
+		 		<li>探险</li>
+		 	</ul>
+		 </div>
+		 <div class="button-info">
+		 	<div class="button">
+		 		<p>
+		 			<input type="text" id="aihao" placeholder="请输入需要添加的标签" >
+		 		</p>
+		 		<span id="add">添加爱好</span>
+		 	</div>
+		 	<div class="tip">你最多只能选择三个兴趣爱好，不可以选择更多哦</div>
+		 </div>
+		 <div class="result">
+		 	<ul id="selected">
+		 		<!-- <li>音乐<span></span></li>
+		 		<li>美术<span></span></li> -->
+		 	</ul>
+		 </div>
+	</div>
+	<script src="jquery.js"></script>
+	<script>
+		$(function(){
+			$("#items li").on("click",function(){
+				var text=$(this).html();
+				if ($("#selected li").length<3) {
+					if (!$(this).hasClass("select")) {
+						$(this).addClass("select");
+						$("#selected").append(`<li>${text}<span></span></li>`)
+					}else{
+						alert("不能重复选择");
+					}
+				}else{
+					$(".tip").show();
+				}
+				
+			})
+
+			$("#selected").on("click","span",function(){
+				$(this).parent().remove();
+				var text=$(this).parent().text();
+				// console.log(text);
+				// console.log($(this).parent().html());
+				$(".select").each(function(x,i){
+
+					if ($(i).html()==text) {
+						$(i).removeClass("select");
+					};
+				})
+				// $("li:contains("+text+")").removeClass("select");
+			});
+
+			$("#add").on("click",function(){
+
+				var a=true;
+				var val=$("#aihao").val();
+				$("#selected li").each(function(x,i){
+					if ($(i).text()==val) {
+						a=false;
+					}
+				})
+				if ($("#selected li").size()<3) {
+					if (a) {
+						$("#items li").each(function(x,i){
+							if(val==$(i).html()){
+								$(i).addClass("select");
+							}
+						})
+						$("#selected").append(`<li>${val}<span></span></li>`);
+						$("#aihao").val("");
+					}else{
+						alert("不能重复选择");
+					}
+				}else{
+					$(".tip").show();
+				}
+			})
+
+		})
+	</script>
+</body>
+</html>

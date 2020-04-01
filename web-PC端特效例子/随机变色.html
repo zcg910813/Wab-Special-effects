@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>随机颜色</title>
+    <style>
+        #block {
+            width: 300px;
+            height: 300px;
+            margin: 100px auto;
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="block"></div>
+</body>
+<script>
+    var a = setInterval(fn, 100);
+    fn();
+
+    function fn() {
+        var block = document.getElementById('block');
+        block.style.background = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) +  ')';
+    }
+
+</script>
+
+</html>

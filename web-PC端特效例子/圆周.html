@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>圆周运动</title>
+	<style>
+		#block {
+			width: 50px;
+			height: 50px;
+			background: #3388ff;
+			position: fixed;
+			top: 600px;
+			left: 200px;
+		}
+
+		span {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 1px;
+			height: 1px;
+			background: black;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="block"></div>
+</body>
+<script>
+	var block = document.getElementById('block');
+
+
+
+	//曲线运动
+	// var x = 0;
+	// var timer = setInterval(function () {
+	// 	x -= 1;
+	// 	//PI/180*一次旋转的角度数”：就是这个旋转的角度用弧度制表示时的大小.即还是表示原来角度的大小
+	// 	var y = 100 * Math.sin(x * 2 * Math.PI / 180);
+	
+	// 	block.style.left = y + 175 + 'px';
+	// 	block.style.top = x + 775 + 'px';
+	// 	// console.log(x, y);
+	// 	var sp = document.createElement('span');
+	// 	document.body.appendChild(sp);
+	// 	sp.style.left = y + 200 + 'px';
+	// 	sp.style.top = x + 800 + 'px';
+
+	// }, 10);
+
+
+
+	//圆周运动
+	var deg = 0;
+	var timer = setInterval(function () {
+		deg++;
+		var x = 100 * Math.cos(deg * Math.PI / 180);
+		var y = 100 * Math.sin(deg * Math.PI / 180);
+		block.style.left = x + 175 + 'px';
+		block.style.top = y + 175 + 'px';
+		var sp = document.createElement('span');
+		if (deg <= 360) {
+			document.body.appendChild(sp);
+			sp.style.left = x + 200 + 'px';
+			sp.style.top = y + 200 + 'px';
+		}
+	}, 10)
+</script>
+
+</html>

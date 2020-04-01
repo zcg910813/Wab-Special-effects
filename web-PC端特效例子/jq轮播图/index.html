@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-1.11.2.min.js"></script>
+</head>
+
+<body>
+    <div id="pic_box">
+        <ul id="scrollBall">
+            <li>
+                <a href="#"><img src="images/p1.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/p2.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/p3.png" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/p4.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/p5.jpg" alt=""></a>
+            </li>
+            <li>
+                <a href="#"><img src="images/p6.jpg" alt=""></a>
+            </li>
+        </ul>
+        <p id="point_btns">
+            <a class="high_light" href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+            <a href="javascript:;"></a>
+        </p>
+        <a id="prev" class="hide" href="javascript:;">&lt;</a>
+        <a id="next" class="hide" href="javascript:;">&gt;</a>
+    </div>
+</body>
+<script>
+    $(function() {
+        var $timer;
+        var $index = 0;
+        var $direction = 1;
+        var $pic_box = $('#pic_box');
+        var $scrollBall = $('#scrollBall');
+        var $points = $('#point_btns');
+        $('#prev').data('d', -1);
+        $('#next').data('d', 1);
+        var $flag = true;
+        //复制第一张图
+        $scrollBall.append($scrollBall.children().first().clone());
+        //自动轮播
+        function autoMove() {
+            clearTimeout($timer);
+            $timer = setTimeout(move, 1000);
+        }
+        autoMove();
+        //滚动函数
+        function move() {
+            $index += $direction;
+            //边界判断
+            if ($index == 7) {
+                $index = 1;
+                $scrollBall.css('left', 0);
+            } else if ($index == -1) {
+                $index = 5;
+                $scrollBall.css('left', '-4740px');
+            }
+            //大图轮播
+            $scrollBall.stop().animate({
+                left: -790 * $index
+            }, 300, function() {
+                if($flag){
+                    autoMove();
+                } 
+            })
+            //焦点跟随
+            $('#point_btns').children('a').eq($index % 6).addClass('high_light').siblings('a').removeClass('high_light');
+        }
+
+        //焦点切换
+        $('#point_btns').on('click', 'a', function() {
+            clearTimeout($timer);
+            $index = $(this).index();
+            //大图轮播
+            $scrollBall.stop().animate({
+                left: -790 * $index
+            }, 300)
+            //焦点样式切换
+            $(this).addClass('high_light').siblings('a').removeClass('high_light');
+        })
+        //左右切换
+        $pic_box.hover(function() {
+            clearTimeout($timer);
+            $flag = false;
+            $('#prev,#next').stop().fadeIn(300).off().click(function() {
+                $direction = $(this).data('d');
+                move();
+            });
+        }, function() {
+            $('#prev,#next').stop().fadeOut(300);
+            autoMove();
+            $flag = true;
+        })
+    })
+
+</script>
+
+</html>

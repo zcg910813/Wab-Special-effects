@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽</title>
+    <style>
+        #outer {
+            width: 400px;
+            height: 400px;
+            margin: 100px auto;
+            border: 10px solid black;
+            position: relative;
+        }
+        
+        #inner {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="outer">
+        <div id="inner"></div>
+    </div>
+</body>
+<script>
+    var inner = document.getElementById("inner");
+    var outer = document.getElementById("outer");
+    inner.onmousedown = function(event) {
+        var e = event || window.event;
+        //鼠标相对于小块的坐标
+        var startX = e.offsetX || e.layerX;
+        var startY = e.offsetY || e.layerY;
+
+        document.onmousemove = function(event) {
+            var e = event || window.event;
+            //小块实时的位置
+            var posX = (e.clientX + document.body.scrollLeft) - (outer.offsetLeft + outer.clientLeft) - startX;
+            var posY = (e.clientY + document.body.scrollTop) - (outer.offsetTop + outer.clientTop) - startY;
+            //边界检测
+            if (posY <= 0) {
+                posY = 0;
+            } else if (posY >= (outer.clientHeight - inner.clientHeight)) {
+                posY = (outer.clientHeight - inner.clientHeight);
+            }
+
+            if (posX <= 0) {
+                posX = 0;
+            } else if (posX >= (outer.clientWidth - inner.clientWidth)) {
+                posX = (outer.clientWidth - inner.clientWidth);
+            }
+
+            inner.style.left = posX + 'px';
+            inner.style.top = posY + 'px';
+            //鼠标松开后小块停止跟随
+            document.onmouseup = function() {
+                document.onmousemove = null;
+            }
+        }
+    }
+
+</script>
+
+</html>

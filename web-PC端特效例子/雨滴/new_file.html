@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>雨滴</title>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+				overflow:hidden;
+			}
+			#can{
+				background:#000;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<canvas id="can" width="" height=""></canvas>
+	</body>
+	<script>
+		//获取浏览器窗口大小
+		var w=window.innerWidth;
+		var h=window.innerHeight;
+		var can=document.getElementById('can');
+		var can_c=can.getContext("2d");
+		//将窗口大小给canvas设置上
+		can.height=h;
+		can.width=w;
+		
+		function ran(min,max){
+			return Math.random()*(max-min)+min;
+		}
+		function Person(){};
+		Person.prototype={
+			init:function(){ //初始参数
+				this.x=ran(0,w);//雨滴初始的x轴位置
+				this.y=0;//雨滴初始的y轴位置
+				this.v=ran(4,5);//每次移动的距离
+				this.e=ran(0.8*h,0.9*h);
+				//圆
+				this.r=1;//初始圆的半径
+				this.vr=1;
+				this.a=1; //透明度
+				this.va=0.95;
+			},
+			//判断是否落到地面，没有落到地面就开始画圆
+			draw:function(){
+				if(this.y<this.e){
+					can_c.fillStyle="#33ffff";
+					can_c.fillRect(this.x,this.y,2,10);
+				}else{
+					can_c.strokeStyle="rgba(0,255,255,"+this.a+")";
+					can_c.beginPath();
+					can_c.arc(this.x,this.y,this.r,0,Math.PI*2);
+					can_c.stroke();
+				}
+			},
+			//如果没有落到地面就改变y值
+			update:function(){
+				if(this.y<this.e){
+					this.y+=this.v;
+				}else{
+					if(this.a>0.05){
+							this.r+=this.vr;
+							if(this.r>50){
+								this.a*=this.va;
+							}
+						}else{
+							this.init();
+						}
+				}
+				this.draw();
+			}
+		}
+		var rainArry=[];//保存雨滴
+		for(var i=0;i<30;i++){
+			setTimeout(function(){
+				var person=new Person();//生成雨滴
+				person.init();
+				person.draw();
+				rainArry.push(person);
+			},200*i) //不让雨滴同时出现
+		}
+		
+		setInterval(function(){
+			can_c.fillStyle="rgba(0,0,0,0.05)";
+			can_c.fillRect(0,0,w,h);
+			for(var j=0;j<rainArry.length;j++){
+				rainArry[j].update();
+			}
+		},1000/60) //浏览器刷新频率
+	</script>
+</html>

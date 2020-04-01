@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-family: "微软雅黑";
+            font-size: 12px;
+        }
+        
+        a body {
+            background: #f3f3f3;
+        }
+        
+        cite {
+            font-style: normal;
+            float: right;
+        }
+        
+        .box {
+            width: 728px;
+            margin: 0 auto;
+            border: solid 1px #e6e6e6;
+            background: #FFF;
+            position: relative;
+            padding-bottom: 60px;
+        }
+        
+        .box ul {
+            padding: 0 34px;
+        }
+        
+        .box ul li {
+            border-bottom: solid 1px #e6e6e6;
+            position: relative;
+            padding-top: 30px;
+        }
+        
+        .box li .right {
+            padding-left: 64px;
+        }
+        
+        .box li .left {
+            position: absolute;
+            left: 0;
+            top: 30px;
+            width: 64px;
+            overflow: hidden;
+        }
+        
+        .box li .left span {
+            display: block;
+            overflow: hidden;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .box li .left span img {
+            width: 100%;
+        }
+        
+        .userinfo span,
+        .userinfo cite {
+            padding-right: 10px;
+            line-height: 30px;
+            color: #999;
+        }
+        
+        .userinfo .name {
+            color: #ff8b3d;
+        }
+        
+        .callback {
+            background: #fafafa;
+            padding: 10px 18px;
+        }
+        
+        .callback p {
+            margin: 0;
+            padding: 0;
+            line-height: 22px;
+            font-size: 15px;
+        }
+        
+        .msg {
+            padding: 8px 0;
+            line-height: 22px;
+            font-size: 15px;
+        }
+        
+        .func {
+            overflow: hidden;
+            line-height: 33px;
+            text-align: right;
+        }
+        
+        .func a {
+            text-decoration: none;
+            padding-left: 10px;
+            color: #999;
+        }
+        
+        .box .input textarea {
+            display: block;
+            resize: none;
+        }
+        
+        .msg_input {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 728px;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+        
+        .msg_input .input {
+            padding: 10px 23px 10px 12px;
+            float: left;
+        }
+        
+        .msg_input .input input {
+            width: 526px;
+            height: 38px;
+            border: solid 1px #e6e6e6;
+            outline: none;
+            text-indent: 20px;
+        }
+        
+        .msg_input .btn {
+            padding: 10px 0;
+            float: left;
+        }
+        
+        .msg_input .btn button {
+            width: 140px;
+            height: 38px;
+            box-sizing: border-box;
+            border: solid 1px #e6e6e6;
+            background: #FFF;
+            outline: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <ul id="list">
+        </ul>
+        <div class="msg_input">
+            <div class="input">
+                <input id="ipt" type="text">
+            </div>
+            <div class="btn">
+                <button id="repeat" class="huifu" style="display: none;">回复</button>
+                <button id="comment" class="pinglun" style="">评论</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var comment = document.getElementById("comment");
+        var elist = document.getElementById("list");
+        var eipt = document.getElementById("ipt")
+        var num = 0;
+        var a = 0;
+        comment.onclick = function() {
+            num++;
+            //创建头像
+            var eitem = document.createElement("li");
+            var eleft = document.createElement("div");
+            eleft.className = "left";
+            eleft.innerHTML = "<span><img src='images/touxiang.jpg'></span>";
+            eitem.appendChild(eleft);
+
+            //创建名字
+            var eright = document.createElement("div");
+            eright.className = "right";
+            var name = document.createElement("div");
+            name.className = "userinfo";
+            name.innerHTML = '<cite>' + num + '#</cite><span class="name">谷子的心</span><span class="info">神马级手机控</span>'
+            eitem.appendChild(eright);
+            eright.appendChild(name);
+
+            //创建评论内容
+            var center = document.createElement("div");
+            center.className = "msg";
+            center.innerHTML = eipt.value;
+            eipt.value = "";
+            eright.appendChild(center);
+
+
+            //创建删除回复
+
+            var sbottom = document.createElement("div");
+            sbottom.className = "func";
+            var huifu = document.createElement("a");
+            var shanchu = document.createElement("a");
+            shanchu.className = "del";
+            huifu.className = "huifu";
+            shanchu.innerText = "删除";
+            huifu.innerText = "回复";
+            sbottom.appendChild(huifu);
+            sbottom.appendChild(shanchu);
+            eright.appendChild(sbottom);
+            huifu.onclick = function() {
+                a++;
+                var hfcenter = document.createElement("div");
+                hfcenter.innerHTML = '回复' + a + ':' + eipt.value;
+                center.appendChild(hfcenter);
+                eipt.value = "";
+            }
+            shanchu.onclick = function() {
+                elist.removeChild(eitem);
+            }
+
+
+            elist.appendChild(eitem);
+
+        }
+
+    </script>
+</body>
+
+</html>

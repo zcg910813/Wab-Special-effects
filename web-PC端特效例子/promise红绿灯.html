@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            pad: 0;
+        }
+
+        .lights {
+            width: 180px;
+            height: 60px;
+            overflow: hidden;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -90px;
+            margin-top: -30px;
+        }
+
+        .lights span {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            border-radius: 50%;
+            float: left;
+            opacity: 0.3;
+        }
+
+        .lights span.active {
+            opacity: 1;
+        }
+
+        .lights span.green {
+            background: green;
+        }
+
+        .lights span.yellow {
+            background: yellow;
+        }
+
+        .lights span.red {
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lights">
+        <span class="green"></span>
+        <span class="yellow"></span>
+        <span class="red"></span>
+    </div>
+    <script>
+        let promise = function (num) {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve();
+                }, num);
+            });
+        }
+        let lights = document.querySelectorAll("span");
+        (function run() {
+            lights[0].className += " active"; //绿灯亮
+            promise(3000).then(function () {
+                lights[0].className = "green"; //绿灯灭
+                lights[1].className += " active"; //黄灯亮
+                promise(1000).then(function () {
+                    lights[1].className = "yellow"; //黄灯灭
+                    lights[2].className += " active"; //红灯亮
+                    promise(4000).then(function () {
+                        lights[2].className = "red"; //红灯灭
+                        run();
+                    });
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>

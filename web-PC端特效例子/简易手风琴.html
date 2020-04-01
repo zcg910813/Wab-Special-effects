@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .s_box{
+            width: 1010px;
+            height: 20px;
+            margin: 0 auto;
+            border: 1px solid black;
+            margin-top: 100px;
+            
+        }
+        .box {
+            width: 1010px;
+            margin: 0 auto;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .box ul {
+            width:1020px;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .box li {
+            margin: 0 1px;
+            display: inline-block;
+            width: 198px;
+            height: 298px;
+            float: left;
+            border: 1px solid black;
+        }
+
+    </style>
+    <script src="js/jquery-1.11.2.min.js"></script>
+</head>
+
+<body>
+   <div class="s_box"></div>
+    <div class="box">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        $(".box ul li").mouseover(function() {
+            $(this).stop().animate({
+                width: 298
+            }).siblings().stop().animate({
+                width: 172
+            });
+        }).parent().mouseout(function() {
+            $(this).children().stop().animate({
+                width: 198
+            })
+        });
+
+    </script>
+</body>
+
+</html>

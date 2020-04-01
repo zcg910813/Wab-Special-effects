@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+			list-style: none;
+			font-size: 12px;
+			color: #5b5b5b;
+		}
+		.box{
+			width: 435px;
+			margin: 0 auto;
+		}
+		.box .title{
+			color:#000;
+			background: #eceff1;
+			display: inline-block;
+			line-height: 25px;
+			height: 25px;
+			padding: 0 12px;
+			margin:10px 0;
+			font-size: 12px;
+		}
+		ul.myTag,.tagList{
+			overflow: hidden;
+		}
+		ul.myTag li{
+			float:left;
+			border: solid 1px #ead483;
+			margin-right: 15px;
+			margin-bottom: 10px;
+			cursor:default;
+			position: relative;
+		}
+		ul.myTag li span{
+			display: block;
+			height:20px;
+			line-height: 20px;
+			border: solid 1px #FFF;
+			background: #fef6ce;
+			padding: 0px 6px;
+		}
+		ul.myTag li cite{
+			font-style: normal;
+			color: #3074b3;
+			position: absolute;
+			height: 22px;
+			width: 20px;
+			font-weight: bold;
+			right: 0;
+			top: 0;
+			display: none;
+			text-align: center;
+			line-height: 24px;
+			cursor:pointer;
+		}
+		ul.myTag li:hover{
+			margin-right: 4px;
+		}
+		ul.myTag li:hover span{
+			padding-right: 17px;
+		}
+		ul.myTag li:hover cite{
+			display: block;
+		}
+		.tagList li{
+			float: left;
+			line-height: 24px;
+			padding: 0 8px;
+			background: #b4d1e6;
+			cursor: pointer;
+			margin:0 5px 5px 0;
+		}
+		.tagList li:hover{
+			background: #c2e2ee;
+		}
+		.tagList li span{
+			color: #285e77;
+		}
+		.tagList li.active{
+			line-height: 20px;
+			border: solid 1px #ead483;
+			padding: 0;
+		}
+		.tagList li.active span{
+			display: block;
+			padding: 0 8px;
+			border: solid 1px #FFF;
+			background: #fef6ce;
+			color: #5b5b5b;
+		}
+	</style>
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+	//给未选中标签添加点击事件：在选中标签区域添加本元素的副本，将本元素高亮
+	//cite添加点击事件：删除本cite的父级，清除未选中区域标签的类名
+	$(function(){
+		$(".tagList li").click(function(){
+			if(!$(this).hasClass("active")){
+				var $li = $("<li><span>"+$(this).text()+"</span><cite>×</cite></li>");
+				$(".myTag").append($li);
+				$(this).addClass("active");
+				var $this = $(this);
+				$li.find("cite").click(function(){
+					$(this).parent().remove();
+					$this.removeClass("active");
+				});
+			}
+		});
+	})
+	</script>
+</head>
+<body>
+	<div class="box">
+		<div class="title">我的标签</div>
+		<ul class="myTag">
+			<!--<li><span>守望先锋</span><cite>×</cite></li>-->
+		</ul>
+		<div class="title">设置标签</div>
+		<div class="tagList">
+			<li><span>英雄联盟</span></li>
+			<li><span>穿越火线</span></li>
+			<li><span>守望先锋</span></li>
+			<li><span>成长ing</span></li>
+			<li><span>学习ing</span></li>
+			<li><span>纠结ing</span></li>
+			<li><span>足球</span></li>
+			<li><span>篮球</span></li>
+			<li><span>乒乓球</span></li>
+			<li><span>幽默</span></li>
+			<li><span>乐观</span></li>
+			<li><span>完美主义</span></li>
+		</div>
+	</div>
+</body>
+</html>
